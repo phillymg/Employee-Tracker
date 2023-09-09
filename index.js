@@ -1,5 +1,5 @@
 const inquirer = require('inquirer');
-
+const store = require('./db/store')
 
 mainMenu();
 
@@ -14,7 +14,6 @@ function mainMenu() {
             },
         ])
         .then((data) => {
-            console.log(data);
             switch (data.action) {
                 case 'View all departments':
                     viewDepartments();
@@ -51,8 +50,11 @@ function mainMenu() {
 };
 
 function viewDepartments() {
-    console.log('viewDepartments')
-    mainMenu();
+    store.viewDepartments().then(([res]) => {
+        console.table(res);
+    }).then(() => {
+        mainMenu();
+    });
 };
 
 function viewRoles() {
