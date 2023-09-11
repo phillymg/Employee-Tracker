@@ -58,17 +58,41 @@ function viewDepartments() {
 };
 
 function viewRoles() {
-    console.log('viewRoles')
-    mainMenu();
+    store.viewRoles().then(([res]) => {
+        console.table(res);
+    }).then(() => {
+        mainMenu();
+    });
 };
 function viewEmployees() {
-    console.log('viewEmployees')
-    mainMenu();
+    store.viewEmployees().then(([res]) => {
+        console.table(res);
+    }).then(() => {
+        mainMenu();
+    });
 };
 function addDepartment() {
-    console.log('addDepartment')
-    mainMenu();
-};
+    inquirer.prompt([
+        {
+            type: 'input',
+            name: 'name',
+            message: 'Enter the new department name:'
+        }
+    ])
+        .then((newDepartment) => {
+            return store.addDepartment(newDepartment.name);
+        })
+        .then(() => {
+            console.log('Added department successfully.');
+        })
+        .catch((error) => {
+            console.error('Adding department error:', error);
+        })
+        .then(() => {
+            mainMenu();
+        });
+}
+
 function addRole() {
     console.log('addRole')
     mainMenu();
