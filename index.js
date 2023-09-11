@@ -77,7 +77,7 @@ function addDepartment() {
             type: 'input',
             name: 'name',
             message: 'Enter the new department name:'
-        }
+        },
     ])
         .then((newDepartment) => {
             return store.addDepartment(newDepartment.name);
@@ -94,9 +94,38 @@ function addDepartment() {
 }
 
 function addRole() {
-    console.log('addRole')
-    mainMenu();
+    inquirer.prompt([
+        {
+            type: 'input',
+            name: 'title',
+            message: 'Enter the new title name:'
+        },
+        {
+            type: 'input',
+            name: 'salary',
+            message: 'Enter the salary:'
+        },
+        {
+            type: 'input',
+            name: 'departmentID',
+            message: 'Enter the department id:'
+        }
+    ])
+        .then((newRole) => {
+            return store.addRole(newRole.title, newRole.salary, newRole.departmentID);
+        })
+        .then(() => {
+            console.log('Added role successfully.');
+        })
+        .catch((error) => {
+            console.error('Adding role error:', error);
+        })
+        .then(() => {
+            mainMenu();
+        });
 };
+
+
 function addEmployee() {
     console.log('addEmployee')
     mainMenu();

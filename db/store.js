@@ -17,6 +17,9 @@ class Store {
     }
     addDepartment(departmentName) {
         return this.storeConnection.promise().query('INSERT INTO department (name) VALUES (?)', [departmentName])
+    }
+    addRole(roleTitle) {
+        return this.storeConnection.promise().query('INSERT INTO role (title) VALUES (?)', [roleTitle])
 
     }
 }
