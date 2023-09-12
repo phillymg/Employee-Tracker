@@ -18,9 +18,12 @@ class Store {
     addDepartment(departmentName) {
         return this.storeConnection.promise().query('INSERT INTO department (name) VALUES (?)', [departmentName])
     }
-    addRole(roleTitle) {
-        return this.storeConnection.promise().query('INSERT INTO role (title) VALUES (?)', [roleTitle])
+    addRole(roleData) {
+        return this.storeConnection.promise().query(`INSERT INTO role (title, salary, department_id) VALUES (?,?,?)`, [roleData.title, roleData.salary, roleData.department_id])
 
+    }
+    addEmployee(employData) {
+        return this.storeConnection.promise().query(`INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?,?,?,?)`, [employData.first_name, employData.last_name, employData.role_id, employData.manager_id])
     }
 }
 

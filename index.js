@@ -107,12 +107,12 @@ function addRole() {
         },
         {
             type: 'input',
-            name: 'departmentID',
+            name: 'department_id',
             message: 'Enter the department id:'
         }
     ])
         .then((newRole) => {
-            return store.addRole(newRole.title, newRole.salary, newRole.departmentID);
+            return store.addRole(newRole);
         })
         .then(() => {
             console.log('Added role successfully.');
@@ -127,8 +127,40 @@ function addRole() {
 
 
 function addEmployee() {
-    console.log('addEmployee')
-    mainMenu();
+    inquirer.prompt([
+        {
+            type: 'input',
+            name: 'first_name',
+            message: 'Enter the new first name:'
+        },
+        {
+            type: 'input',
+            name: 'last_name',
+            message: 'Enter the last name:'
+        },
+        {
+            type: 'input',
+            name: 'role_id',
+            message: 'Enter the role id:'
+        },
+        {
+            type: 'input',
+            name: 'manager_id',
+            message: 'Enter the manager id:'
+        }
+    ])
+        .then((newEmployee) => {
+            return store.addEmployee(newEmployee);
+        })
+        .then(() => {
+            console.log('Added employee successfully.');
+        })
+        .catch((error) => {
+            console.error('Adding employee error:', error);
+        })
+        .then(() => {
+            mainMenu();
+        });
 };
 function updateEmployRole() {
     console.log('updateEmployRole')
