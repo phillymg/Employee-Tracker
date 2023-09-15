@@ -25,6 +25,9 @@ class Store {
     addEmployee(employData) {
         return this.storeConnection.promise().query(`INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?,?,?,?)`, [employData.first_name, employData.last_name, employData.role_id, employData.manager_id])
     }
+    updateEmployee(updateEmploy) {
+        return this.storeConnection.promise().query(`UPDATE employee SET role_id=? WHERE id=?`, [updateEmploy.role_id, updateEmploy.employee_id])
+    }
 }
 
 

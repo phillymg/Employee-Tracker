@@ -93,7 +93,8 @@ function addDepartment() {
         });
 }
 
-function addRole() {
+async function addRole() {
+    const departments = await store.viewDepartments().then(([res]) => res);
     inquirer.prompt([
         {
             type: 'input',
@@ -106,9 +107,13 @@ function addRole() {
             message: 'Enter the salary:'
         },
         {
-            type: 'input',
+            type: 'list',
             name: 'department_id',
-            message: 'Enter the department id:'
+            message: 'Select department:',
+            choices: departments.map(department => ({
+                name: department.name,
+                value: department.id,
+            }))
         }
     ])
         .then((newRole) => {
@@ -126,7 +131,10 @@ function addRole() {
 };
 
 
-function addEmployee() {
+async function addEmployee() {
+    const roles = await store.viewRoles().then(([res]) => res);
+    const employees = await store.viewEmployees().then(([res]) => res);
+
     inquirer.prompt([
         {
             type: 'input',
@@ -139,14 +147,22 @@ function addEmployee() {
             message: 'Enter the last name:'
         },
         {
-            type: 'input',
+            type: 'list',
             name: 'role_id',
-            message: 'Enter the role id:'
+            message: 'Select role:',
+            choices: roles.map(role => ({
+                name: role.title,
+                value: role.id,
+            }))
         },
         {
-            type: 'input',
+            type: 'list',
             name: 'manager_id',
-            message: 'Enter the manager id:'
+            message: 'Select manager:',
+            choices: employees.map(employee => ({
+                name: employee.first_name + ' ' + employee.last_name,
+                value: employee.id,
+            }))
         }
     ])
         .then((newEmployee) => {
@@ -162,7 +178,41 @@ function addEmployee() {
             mainMenu();
         });
 };
-function updateEmployRole() {
-    console.log('updateEmployRole')
-    mainMenu();
+async function updateEmployRole() {
+    const roles = await store.viewRoles().then(([res]) => res);
+    const employees = await store.viewEmployees().then(([res]) => res);
+
+    inquirer.prompt([
+        {
+            type: 'list',
+            name: 'employee_id',
+            message: 'Select employee to update:',
+            choices: employees.map(employee => ({
+                name: employee.first_name + ' ' + employee.last_name,
+                value: employee.id,
+            }))
+        },
+        {
+            type: 'list',
+            name: 'role_id',
+            message: 'Select role:',
+            choices: roles.map(role => ({
+                name: role.title,
+                value: role.id,
+            }))
+        },
+    ]).then((updateEmployee) => {
+        return store.updateEmployee(updateEmployee);
+    })
+        .then(() => {
+            console.log('Updated employee successfully.');
+        })
+        .catch((error) => {
+            console.error('Updating employee error:', error);
+        })
+        .then(() => {
+            mainMenu();
+        });
+
+
 };
